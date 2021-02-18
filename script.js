@@ -21,12 +21,14 @@ const start = function () {
       ball.classList.add('ball-fly');
     }
 
-    if (event.code === 'ArrowLeft') {
+    if (event.code === 'ArrowLeft' && platform.style.left > 0 + 'px') {
       platform.style.left = parseInt(platform.style.left) - 5 + 'px';
+      console.log(platform.style.left);
     }
 
-    if (event.code === 'ArrowRight') {
+    if (event.code === 'ArrowRight' && (platform.style.left) < 300 + 'px') {
       platform.style.left = parseInt(platform.style.left) + 5 + 'px';
+      console.log(platform.style.left);
     }
   });
 
