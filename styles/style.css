@@ -17,7 +17,6 @@ body {
   height: 10px;
   position: absolute;
   background-color: black;
-  /* left: 200px; */
   top: 98%;
 }
 
@@ -27,8 +26,7 @@ body {
   border-radius: 50%;
   position: absolute;
   background-color: red;
-  left: 49%;
-  top: 96.9%;
+  /* top: 96.3%; */
 }
 
 .ball-fly {

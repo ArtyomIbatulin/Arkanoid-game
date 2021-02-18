@@ -1,15 +1,21 @@
 let field = document.querySelector('.field');
 let platform = document.querySelector('.platform');
 let ball = document.querySelector('.ball');
+let blocks = document.querySelector('.blocks');
 
-platform.style.left = 200 + 'px';
-// ball.style.left =
-//   Math.round(field.clientWidth / 2 - ball.offsetWidth / 2) + 'px';
+platform.style.left =
+  Math.round(field.clientWidth / 2 - platform.offsetWidth / 2) + 'px';
 
-// platform.style.left =
-//   Math.round(field.clientWidth / 2 - platform.offsetWidth / 2) + 'px';
+ball.style.left =
+  Math.round(field.clientWidth / 2 - ball.offsetWidth / 2) + 'px';
+ball.style.top = field.clientHeight - 25 + 'px';
 
-let start = function () {
+const start = function () {
+  let posB = ball.getBoundingClientRect();
+  let posP = platform.getBoundingClientRect()
+  console.log(posB);
+  console.log(posP);
+
   document.addEventListener('keydown', function (event) {
     if (event.code === 'Space') {
       ball.classList.add('ball-fly');
@@ -17,17 +23,16 @@ let start = function () {
 
     if (event.code === 'ArrowLeft') {
       platform.style.left = parseInt(platform.style.left) - 5 + 'px';
-      // console.log(platform.style.left);
     }
+
     if (event.code === 'ArrowRight') {
-      platform.classList.add('platform-right');
+      platform.style.left = parseInt(platform.style.left) + 5 + 'px';
     }
   });
+
 };
 
-// function left() {
-//   platform.style.left = parseInt(platform.style.left) - 5 + 'px';
-// }
+
 
 // let game = function () {
 //   setInterval(start, 1000 / 50);
