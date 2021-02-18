@@ -3,3 +3,60 @@ body {
   margin: 0;
   padding: 0;
 }
+
+.field {
+  width: 40vw;
+  height: 100vh;
+  position: relative;
+  margin: 0 auto;
+  background-color: rgb(53, 165, 230);
+}
+
+.platform {
+  width: 150px;
+  height: 10px;
+  position: absolute;
+  background-color: black;
+  /* left: 200px; */
+  top: 98%;
+}
+
+.ball {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  position: absolute;
+  background-color: red;
+  left: 49%;
+  top: 96.9%;
+}
+
+.ball-fly {
+  animation: ball-fly 5s linear infinite alternate;
+}
+
+.platform-left {
+  animation: platform-left 5s linear infinite;
+}
+
+.platform-right {
+  animation: platform-right 5s linear infinite;
+}
+
+@keyframes ball-fly {
+  100% {
+    top: 10%;
+  }
+}
+
+@keyframes platform-left {
+  100% {
+    left: 10%;
+  }
+}
+
+@keyframes platform-right {
+  100% {
+    left: 70%;
+  }
+}
