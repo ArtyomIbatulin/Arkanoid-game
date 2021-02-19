@@ -12,29 +12,24 @@ ball.style.top = field.clientHeight - 25 + 'px';
 
 const start = function () {
   let posB = ball.getBoundingClientRect();
-  let posP = platform.getBoundingClientRect()
-  console.log(posB);
-  console.log(posP);
+  let posP = platform.getBoundingClientRect();
 
   document.addEventListener('keydown', function (event) {
     if (event.code === 'Space') {
       ball.classList.add('ball-fly');
     }
 
-    if (event.code === 'ArrowLeft' && platform.style.left > 0  + 'px') {
+    if (event.code === 'ArrowLeft' && platform.style.left > 0 + 'px') {
       platform.style.left = parseInt(platform.style.left) - 5 + 'px';
       console.log(platform.style.left);
     }
 
-    if (event.code === 'ArrowRight' && (platform.style.left) < (field.clientWidth - platform.clientWidth) + 'px') {
+    if (event.code === 'ArrowRight') {
       platform.style.left = parseInt(platform.style.left) + 5 + 'px';
       console.log(platform.style.left);
     }
   });
-
 };
-
-
 
 // let game = function () {
 //   setInterval(start, 1000 / 50);
