@@ -4,6 +4,7 @@ let bita = document.querySelector('.bita');
 let leftWall = document.querySelector('.leftWall');
 let rightWall = document.querySelector('.rightWall');
 let topWall = document.querySelector('.topWall');
+let blocks = document.querySelector('.blocks');
 
 let topcord = topWall.getBoundingClientRect().height;
 let bottomcord = leftWall.getBoundingClientRect().height;
@@ -33,7 +34,8 @@ ball.style.top = field.clientHeight - 35 + 'px';
 bita.style.left =
   Math.round(field.clientWidth / 2 - bita.offsetWidth / 2) + 'px';
 
-let start = setInterval(go, 1000 / 20);
+
+const start = setInterval(go, 1000 / 20);
 
 document.addEventListener('keydown', moveBita);
 
@@ -43,12 +45,12 @@ function go() {
   posY -= vy;
 
   if (posX + BW < leftcord) {
-    posX = leftcord + BW;
+    posX = leftcord + BW - 5;
     vx = -vx;
   }
 
   if (posY - BW < topcord) {
-    posY = topcord + BW;
+    posY = topcord + BW - 7;
     vy = -vy;
   }
 
@@ -94,3 +96,21 @@ function moveBita(event) {
   bita.style.top = posBitaY + 'px';
   bita.style.left = posBitaX + 'px';
 }
+
+function drawRect (num) {
+  let bricks = [];
+  for(let i=0; i<num;i++) {
+    let brick = document.createElement('div');
+    brick.style.width = '50px';
+    brick.style.height = '20px';
+    brick.style.margin = '0 5px 5px 5px';
+    const color = ['red', 'blue', 'yellow', 'green', 'black'];
+    const random = Math.floor(Math.random() * color.length);
+    brick.style.backgroundColor = color[random];
+    bricks.push(brick);
+  }
+
+  return bricks;
+}
+
+blocks.append(...drawRect(30));
