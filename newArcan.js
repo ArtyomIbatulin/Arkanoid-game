@@ -10,19 +10,21 @@ let bottomcord = leftWall.getBoundingClientRect().height;
 let rightcord = topWall.getBoundingClientRect().width;
 let leftcord = leftWall.getBoundingClientRect().width;
 
-let vx = 5;
-let vy = 5;
+let vx = 20;
+let vy = 20;
 let ballStyle = ball.getBoundingClientRect();
 let BW = ballStyle.width / 2;
-let posX = ballStyle.left + BW;
-let posY = ballStyle.top + BW;
+// let posX = ballStyle.left + BW;
+// let posY = ballStyle.top + BW;
+let posX = Math.round(field.clientWidth / 2 - ball.offsetWidth / 2);
+let posY = field.clientHeight - 35;
 
 let bStyle = bita.getBoundingClientRect();
 let WBITA = bStyle.width;
 let HBITA = bStyle.height;
 let posBitaY = bStyle.top;
 let posBitaX = Math.round(field.clientWidth / 2 - bita.offsetWidth / 2);
-let vBita = 10;
+let vBita = 20;
 
 ball.style.left =
   Math.round(field.clientWidth / 2 - ball.offsetWidth / 2) + 'px';
@@ -31,14 +33,51 @@ ball.style.top = field.clientHeight - 35 + 'px';
 bita.style.left =
   Math.round(field.clientWidth / 2 - bita.offsetWidth / 2) + 'px';
 
-// let idGo = setInterval(go, 1000 / 20);
+let start = setInterval(go, 1000 / 20);
 
 document.addEventListener('keydown', moveBita);
 
-function moveBita(event) {
-  if (event.code === 'ArrowUp') posBitaY -= vBita;
+function go() {
+  let stBita = bita.getBoundingClientRect();
+  posX -= vx;
+  posY -= vy;
 
-  if (event.code === 'ArrowDown') posBitaY += vBita;
+  if (posX + BW < leftcord) {
+    posX = leftcord + BW;
+    vx = -vx;
+  }
+
+  if (posY - BW < topcord) {
+    posY = topcord + BW;
+    vy = -vy;
+  }
+
+  if (posX + BW > rightcord) {
+    posX = rightcord - BW - 20;
+    vx = -vx;
+  }
+
+  if (posY + BW > bottomcord - HBITA) {
+    if (posX >= stBita.left && posX <= stBita.left + stBita.width) {
+      posY = bottomcord - HBITA - BW - 20;
+      vy = -vy;
+    }
+  }
+
+  ball.style.top = posY + 'px';
+  ball.style.left = posX + 'px';
+
+  if (posY + BW > bottomcord) {
+    clearInterval(start);
+    document.removeEventListener('keydown', moveBita);
+    console.log('Вы проиграли');
+  }
+}
+
+function moveBita(event) {
+  // if (event.code === 'ArrowUp') posBitaY -= vBita;
+
+  // if (event.code === 'ArrowDown') posBitaY += vBita;
 
   if (event.code === 'ArrowLeft') posBitaX -= vBita;
 
