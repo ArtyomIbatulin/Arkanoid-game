@@ -1,0 +1,56 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  overflow: hidden;
+}
+
+.field {
+  width: 35vw;
+  height: 100vh;
+  /* margin: 0 auto; */
+  background: #ddb897;
+  position: relative;
+}
+.bita {
+  position: absolute;
+  width: 150px;
+  height: 10px;
+  top: 98%;
+  background: #3d4eba;
+}
+.ball {
+  position: absolute;
+  background: #de0063;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+}
+
+.leftWall,
+.rightWall,
+.topWall {
+  position: absolute;
+  background: #077a1a;
+}
+
+.leftWall {
+  left: 0;
+  top: 0;
+  width: 5px;
+  height: 100%;
+}
+.rightWall {
+  right: 0;
+  width: 5px;
+  height: 100%;
+}
+.topWall {
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 5px;
+}
