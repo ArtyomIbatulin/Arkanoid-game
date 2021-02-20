@@ -77,7 +77,7 @@ function go() {
     console.log('Вы проиграли');
   }
 
-  // collision();
+  collision();
 }
 
 function moveBita(event) {
@@ -98,8 +98,9 @@ function moveBita(event) {
 }
 
 function drawRect (num) {
- 
+  
   for(let i=0; i<num;i++) {
+    brick = document.createElement('div');
     brick.classList.add('brick');
     brick.style.width = '50px';
     brick.style.height = '20px';
@@ -109,13 +110,11 @@ function drawRect (num) {
     brick.style.backgroundColor = color[random];
     bricks.push(brick);
   }
-
   return bricks;
 }
 
-blocks.append(...drawRect(10));
-console.log(bricks)
-console.log(blocks)
+blocks.append(...drawRect(30));
+
 
 function collision () {
   let brickCord = brick.getBoundingClientRect();
