@@ -5,6 +5,8 @@ let leftWall = document.querySelector('.leftWall');
 let rightWall = document.querySelector('.rightWall');
 let topWall = document.querySelector('.topWall');
 let blocks = document.querySelector('.blocks');
+let brick = document.createElement('div');
+let bricks = []; 
 
 let topcord = topWall.getBoundingClientRect().height;
 let bottomcord = leftWall.getBoundingClientRect().height;
@@ -74,13 +76,11 @@ function go() {
     document.removeEventListener('keydown', moveBita);
     console.log('Вы проиграли');
   }
+
+  // collision();
 }
 
 function moveBita(event) {
-  // if (event.code === 'ArrowUp') posBitaY -= vBita;
-
-  // if (event.code === 'ArrowDown') posBitaY += vBita;
-
   if (event.code === 'ArrowLeft') posBitaX -= vBita;
 
   if (event.code === 'ArrowRight') posBitaX += vBita;
@@ -98,9 +98,9 @@ function moveBita(event) {
 }
 
 function drawRect (num) {
-  let bricks = [];
+ 
   for(let i=0; i<num;i++) {
-    let brick = document.createElement('div');
+    brick.classList.add('brick');
     brick.style.width = '50px';
     brick.style.height = '20px';
     brick.style.margin = '0 5px 5px 5px';
@@ -113,4 +113,37 @@ function drawRect (num) {
   return bricks;
 }
 
-blocks.append(...drawRect(30));
+blocks.append(...drawRect(10));
+console.log(bricks)
+console.log(blocks)
+
+function collision () {
+  let brickCord = brick.getBoundingClientRect();
+  let wBrick = brickCord.width;
+  let hBrick = brickCord.height;
+  let posBrickX = brickCord.left;
+  let posBrickY = brickCord.top;
+
+  for (let i=0; i<bricks.length;i++) {
+    if ((posX+BW) > posBrickX && 
+    (posX+BW) < (posBrickX + wBrick) &&
+    (posY+BW) > posBrickY &&
+    (posY+BW) < (posBrickY + hBrick)
+    ) {
+      // const allBlocks = Array.from(document.querySelectorAll('.brick'));
+      // allBlocks[i].classList.remove('brick');
+      // bricks.splice(i,1);
+      vy = -vy;
+      brick.style.display = 'none';
+    }
+  }
+ 
+}
+
+// const allBlocks = Array.from(document.querySelectorAll('.block'));
+// allBlocks[i].classList.remove('block')
+// blocks.splice(i,1)
+// score ++ 
+// scoreDisplay.innerHTML = score; 
+
+// https://www.youtube.com/watch?v=3KWEud12Pxo
