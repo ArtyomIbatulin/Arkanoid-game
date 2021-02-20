@@ -6,7 +6,7 @@ let rightWall = document.querySelector('.rightWall');
 let topWall = document.querySelector('.topWall');
 let blocks = document.querySelector('.blocks');
 let brick = document.createElement('div');
-let bricks = []; 
+let bricks = [];
 
 let topcord = topWall.getBoundingClientRect().height;
 let bottomcord = leftWall.getBoundingClientRect().height;
@@ -35,7 +35,6 @@ ball.style.top = field.clientHeight - 35 + 'px';
 
 bita.style.left =
   Math.round(field.clientWidth / 2 - bita.offsetWidth / 2) + 'px';
-
 
 const start = setInterval(go, 1000 / 20);
 
@@ -97,9 +96,8 @@ function moveBita(event) {
   bita.style.left = posBitaX + 'px';
 }
 
-function drawRect (num) {
-  
-  for(let i=0; i<num;i++) {
+function drawRect(num) {
+  for (let i = 0; i < num; i++) {
     brick = document.createElement('div');
     brick.classList.add('brick');
     brick.style.width = '50px';
@@ -113,36 +111,34 @@ function drawRect (num) {
   return bricks;
 }
 
-blocks.append(...drawRect(30));
+blocks.append(...drawRect(32));
 
-
-function collision () {
+function collision() {
   let brickCord = brick.getBoundingClientRect();
   let wBrick = brickCord.width;
   let hBrick = brickCord.height;
   let posBrickX = brickCord.left;
   let posBrickY = brickCord.top;
-
-  for (let i=0; i<bricks.length;i++) {
-    if ((posX+BW) > posBrickX && 
-    (posX+BW) < (posBrickX + wBrick) &&
-    (posY+BW) > posBrickY &&
-    (posY+BW) < (posBrickY + hBrick)
-    ) {
-      // const allBlocks = Array.from(document.querySelectorAll('.brick'));
-      // allBlocks[i].classList.remove('brick');
-      // bricks.splice(i,1);
-      vy = -vy;
-      brick.style.display = 'none';
-    }
+  // for (let i = 0; i < bricks.length; i++) {
+  if (
+    posX + BW > posBrickX &&
+    posX + BW < posBrickX + wBrick &&
+    posY + BW > posBrickY &&
+    posY + BW < posBrickY + hBrick
+  ) {
+    // const allBlocks = Array.from(document.querySelectorAll('.brick'));
+    // allBlocks[i].style.display = 'none';
+    // bricks.splice(i, 1);
+    alert('BaBax');
+    vy = -vy;
+    vx = -vx;
+    brick.style.display = 'none';
   }
- 
+  // }
 }
 
 // const allBlocks = Array.from(document.querySelectorAll('.block'));
 // allBlocks[i].classList.remove('block')
 // blocks.splice(i,1)
-// score ++ 
-// scoreDisplay.innerHTML = score; 
-
-// https://www.youtube.com/watch?v=3KWEud12Pxo
+// score ++
+// scoreDisplay.innerHTML = score;
