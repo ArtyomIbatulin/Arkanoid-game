@@ -1,20 +1,34 @@
-/* стили для всей страницы */
 html,
 body {
   margin: 0;
   padding: 0;
 }
 
-.field {
+.grid {
   position: absolute;
-  width: 600px;
+  width: 560px;
   height: 300px;
   border: solid 1px black;
 }
 
 .block {
   position: absolute;
+  background-color: blue;
   width: 100px;
   height: 20px;
-  background-color: blue;
+}
+
+.user {
+  position: absolute;
+  background-color: purple;
+  width: 100px;
+  height: 20px;
+}
+
+.ball {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border-radius: 10px;
+  background-color: red;
 }
