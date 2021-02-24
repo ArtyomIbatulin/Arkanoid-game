@@ -113,29 +113,37 @@ function drawRect(num) {
 
 blocks.append(...drawRect(32));
 
+let brickCord = brick.getBoundingClientRect();
+let wBrick = brickCord.width;
+let hBrick = brickCord.height;
+let posBrickX = brickCord.left;
+let posBrickY = brickCord.top;
 function collision() {
-  let brickCord = brick.getBoundingClientRect();
-  let wBrick = brickCord.width;
-  let hBrick = brickCord.height;
-  let posBrickX = brickCord.left;
-  let posBrickY = brickCord.top;
-  // for (let i = 0; i < bricks.length; i++) {
-  if (
-    posX + BW > posBrickX &&
-    posX + BW < posBrickX + wBrick &&
-    posY + BW > posBrickY &&
-    posY + BW < posBrickY + hBrick
-  ) {
-    // const allBlocks = Array.from(document.querySelectorAll('.brick'));
-    // allBlocks[i].style.display = 'none';
-    // bricks.splice(i, 1);
-    alert('BaBax');
-    vy = -vy;
-    vx = -vx;
-    brick.style.display = 'none';
+  for (let i = 0; i < bricks.length; i++) {
+    // brick = bricks[i];
+    if (
+      posX + BW > posBrickX &&
+      posX + BW < posBrickX + wBrick &&
+      posY + BW > posBrickY &&
+      posY + BW < posBrickY + hBrick
+    ) {
+      console.log('BaBax');
+      vy = -vy;
+      vx = -vx;
+      bricks[i].style.display = 'none';
+      break;
+    }
   }
-  // }
 }
+
+// function collides(obj1, obj2) {
+//   return (
+//     posX + BW > posBrickX &&
+//     posX + BW < posBrickX + wBrick &&
+//     posY + BW > posBrickY &&
+//     posY + BW < posBrickY + hBrick
+//   );
+// }
 
 // const allBlocks = Array.from(document.querySelectorAll('.block'));
 // allBlocks[i].classList.remove('block')
