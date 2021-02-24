@@ -6,9 +6,11 @@ body {
 
 .grid {
   position: absolute;
+  margin-left: 30px;
   width: 560px;
-  height: 300px;
-  border: solid 1px black;
+  height: 97%;
+  border: solid 5px #077a1a;
+  background-color: #ddb897;
 }
 
 .block {
@@ -19,15 +21,15 @@ body {
 
 .user {
   position: absolute;
-  background-color: purple;
+  background-color: #3d4eba;
   width: 100px;
   height: 20px;
 }
 
 .ball {
   position: absolute;
-  width: 20px;
-  height: 20px;
-  border-radius: 10px;
-  background-color: red;
+  background-color: #de0063;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
 }

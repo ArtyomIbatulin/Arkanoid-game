@@ -3,11 +3,11 @@ const scoreDisplay = document.querySelector('#score');
 const blockWidth = 100;
 const blockHeight = 20;
 const boardWidth = 560;
-const boardHeight = 300;
-const ballDiameter = 20;
+const boardHeight = 650;
+const ballDiameter = 15;
 let timerId;
-let xDirection = 2;
-let yDirection = 2;
+let xDirection = 5;
+let yDirection = 5;
 let score = 0;
 
 const userStart = [230, 10];
@@ -28,21 +28,21 @@ class Block {
 }
 
 const blocks = [
-  new Block(10, 270 , 'yellow', 3),
-  new Block(120, 270 , 'yellow', 3),
-  new Block(230, 270 , 'yellow', 3),
-  new Block(340, 270 , 'yellow', 3),
-  new Block(450, 270 , 'yellow', 3),
-  new Block(10, 240 , 'blue', 2),
-  new Block(120, 240 , 'blue', 2),
-  new Block(230, 240 , 'blue', 2),
-  new Block(340, 240 , 'blue', 2),
-  new Block(450, 240 , 'blue', 2),
-  new Block(10, 210 , 'red', 1),
-  new Block(120, 210 , 'red', 1),
-  new Block(230, 210 , 'red', 1),
-  new Block(340, 210 , 'red', 1),
-  new Block(450, 210 , 'red', 1),
+  new Block(10, 570 , 'yellow', 3),
+  new Block(120, 570 , 'yellow', 3),
+  new Block(230, 570 , 'yellow', 3),
+  new Block(340, 570 , 'yellow', 3),
+  new Block(450, 570 , 'yellow', 3),
+  new Block(10, 540 , 'blue', 2),
+  new Block(120, 540 , 'blue', 2),
+  new Block(230, 540 , 'blue', 2),
+  new Block(340, 540 , 'blue', 2),
+  new Block(450, 540 , 'blue', 2),
+  new Block(10, 510 , 'red', 1),
+  new Block(120, 510 , 'red', 1),
+  new Block(230, 510 , 'red', 1),
+  new Block(340, 510 , 'red', 1),
+  new Block(450, 510 , 'red', 1),
 ];
 
 function addBlocks() {
@@ -119,16 +119,18 @@ function checkForCollisions() {
       const allBlocks = Array.from(document.querySelectorAll('.block'));
 
       blocks[i].hitCounter--;
+      if (blocks[i].hitCounter < 0) blocks[i].hitCounter = 0;
       console.log(blocks[i].hitCounter);
 
       if (blocks[i].hitCounter === 0) {
-        allBlocks[i].classList.remove('block');
         blocks.splice(i, 1);
+        allBlocks[i].classList.remove('block');
 
-        if (blocks[i].color === 'red') score += 5;
-        if (blocks[i].color === 'blue') score += 10;
-        if (blocks[i].color === 'yellow') score += 15;
-        if (blocks[i].color === 'green') score += 20;
+        // if (blocks[i].color === 'red') score += 5;
+        // if (blocks[i].color === 'blue') score += 10;
+        // if (blocks[i].color === 'yellow') score += 15;
+        // if (blocks[i].color === 'green') score += 20;
+
       } 
     
       changeDirection();
@@ -172,23 +174,23 @@ function checkForCollisions() {
 }
 
 function changeDirection() {
-  if (xDirection === 2 && yDirection === 2) {
-    yDirection = -2;
+  if (xDirection === 5 && yDirection === 5) {
+    yDirection = -5;
     return;
   }
 
-  if (xDirection === 2 && yDirection === -2) {
-    xDirection = -2;
+  if (xDirection === 5 && yDirection === -5) {
+    xDirection = -5;
     return;
   }
 
-  if (xDirection === -2 && yDirection === -2) {
-    yDirection = 2;
+  if (xDirection === -5 && yDirection === -5) {
+    yDirection = 5;
     return;
   }
 
-  if (xDirection === -2 && yDirection === 2) {
-    xDirection = 2;
+  if (xDirection === -5 && yDirection === 5) {
+    xDirection = 5;
     return;
   }
 }
