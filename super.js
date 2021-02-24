@@ -17,30 +17,32 @@ const ballStart = [270, 40];
 let ballCurrentPosition = ballStart;
 
 class Block {
-  constructor(xAxis, yAxis) {
+  constructor(xAxis, yAxis, color, hitCounter) {
     this.bottomLeft = [xAxis, yAxis];
     this.bottomRight = [xAxis + blockWidth, yAxis];
     this.topLeft = [xAxis, yAxis + blockHeight];
     this.topRight = [xAxis + blockWidth, yAxis + blockHeight];
+    this.color = color;
+    this.hitCounter = hitCounter;
   }
 }
 
 const blocks = [
-  new Block(10, 270),
-  new Block(120, 270),
-  new Block(230, 270),
-  new Block(340, 270),
-  new Block(450, 270),
-  new Block(10, 240),
-  new Block(120, 240),
-  new Block(230, 240),
-  new Block(340, 240),
-  new Block(450, 240),
-  new Block(10, 210),
-  new Block(120, 210),
-  new Block(230, 210),
-  new Block(340, 210),
-  new Block(450, 210),
+  new Block(10, 270 , 'yellow', 3),
+  new Block(120, 270 , 'yellow', 3),
+  new Block(230, 270 , 'yellow', 3),
+  new Block(340, 270 , 'yellow', 3),
+  new Block(450, 270 , 'yellow', 3),
+  new Block(10, 240 , 'blue', 2),
+  new Block(120, 240 , 'blue', 2),
+  new Block(230, 240 , 'blue', 2),
+  new Block(340, 240 , 'blue', 2),
+  new Block(450, 240 , 'blue', 2),
+  new Block(10, 210 , 'red', 1),
+  new Block(120, 210 , 'red', 1),
+  new Block(230, 210 , 'red', 1),
+  new Block(340, 210 , 'red', 1),
+  new Block(450, 210 , 'red', 1),
 ];
 
 function addBlocks() {
@@ -49,6 +51,7 @@ function addBlocks() {
     block.classList.add('block');
     block.style.left = blocks[i].bottomLeft[0] + 'px';
     block.style.bottom = blocks[i].bottomLeft[1] + 'px';
+    block.style.backgroundColor = blocks[i].color;
     grid.append(block);
   }
 }
@@ -114,10 +117,22 @@ function checkForCollisions() {
       ballCurrentPosition[1] < blocks[i].topLeft[1]
     ) {
       const allBlocks = Array.from(document.querySelectorAll('.block'));
-      allBlocks[i].classList.remove('block');
-      blocks.splice(i, 1);
+
+      blocks[i].hitCounter--;
+      console.log(blocks[i].hitCounter);
+
+      if (blocks[i].hitCounter === 0) {
+        allBlocks[i].classList.remove('block');
+        blocks.splice(i, 1);
+
+        if (blocks[i].color === 'red') score += 5;
+        if (blocks[i].color === 'blue') score += 10;
+        if (blocks[i].color === 'yellow') score += 15;
+        if (blocks[i].color === 'green') score += 20;
+      } 
+    
       changeDirection();
-      score++;
+      
       scoreDisplay.innerHTML = score;
 
       // win
