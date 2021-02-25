@@ -6,9 +6,12 @@ const blockHeight = 20;
 const boardWidth = 560;
 const boardHeight = 920;
 const ballDiameter = 15;
+let prevPosX;
+let prevPosY;
+let goriz, vert;
 let timerId;
-let xDirection = 5;
-let yDirection = 5;
+let xDirection = 2;
+let yDirection = 2;
 let score = 0;
 let lives = 3;
 
@@ -30,21 +33,21 @@ class Block {
 }
 
 const blocks = [
-  new Block(10, 800, 'green', 3),
-  new Block(120, 800, 'green', 3),
-  new Block(230, 800, 'green', 3),
-  new Block(340, 800, 'green', 3),
-  new Block(450, 800, 'green', 3),
-  new Block(10, 770, 'yellow', 2),
-  new Block(120, 770, 'yellow', 2),
-  new Block(230, 770, 'yellow', 2),
-  new Block(340, 770, 'yellow', 2),
-  new Block(450, 770, 'yellow', 2),
-  new Block(10, 740, 'blue', 2),
-  new Block(120, 740, 'blue', 2),
-  new Block(230, 740, 'blue', 2),
-  new Block(340, 740, 'blue', 2),
-  new Block(450, 740, 'blue', 2),
+  new Block(10, 800, 'green', 1),
+  new Block(120, 800, 'green', 1),
+  new Block(230, 800, 'green', 1),
+  new Block(340, 800, 'green', 1),
+  new Block(450, 800, 'green', 1),
+  new Block(10, 770, 'yellow', 1),
+  new Block(120, 770, 'yellow', 1),
+  new Block(230, 770, 'yellow', 1),
+  new Block(340, 770, 'yellow', 1),
+  new Block(450, 770, 'yellow', 1),
+  new Block(10, 740, 'blue', 1),
+  new Block(120, 740, 'blue', 1),
+  new Block(230, 740, 'blue', 1),
+  new Block(340, 740, 'blue', 1),
+  new Block(450, 740, 'blue', 1),
   new Block(10, 710, 'red', 1),
   new Block(120, 710, 'red', 1),
   new Block(230, 710, 'red', 1),
@@ -121,6 +124,9 @@ function moveBall() {
 }
 
 function checkForCollisions() {
+  prevPosX = ballCurrentPosition[0] - xDirection;
+  prevPosY = ballCurrentPosition[1] - yDirection;
+
   // block
   for (let i = 0; i < blocks.length; i++) {
     if (
@@ -143,8 +149,6 @@ function checkForCollisions() {
         if (blocks[i].color === 'blue') score += 10;
         if (blocks[i].color === 'yellow') score += 15;
         if (blocks[i].color === 'green') score += 20;
-
-        // высота, жизни, очки, туры, нач позиция, плавность движения
       }
 
       changeDirection();
@@ -163,7 +167,20 @@ function checkForCollisions() {
 
   // wall
   if (
-    ballCurrentPosition[0] >= boardWidth - ballDiameter / 1.5 ||
+    ballCurrentPosition[0] >= boardWidth - ballDiameter &&
+    prevPosY > ballCurrentPosition[1]
+  ) {
+    xDirection = -xDirection;
+  }
+  if (
+    ballCurrentPosition[0] >= boardWidth - ballDiameter &&
+    prevPosY < ballCurrentPosition[1]
+  ) {
+    xDirection = -xDirection;
+  }
+
+  if (
+    // ballCurrentPosition[0] >= boardWidth - ballDiameter / 1.5 ||
     ballCurrentPosition[1] >= boardHeight - ballDiameter ||
     ballCurrentPosition[0] + ballDiameter / 1.5 <= 0
   ) {
@@ -185,7 +202,7 @@ function checkForCollisions() {
     livesDisplay.innerHTML = 'You lost the life';
     lives--;
     console.log('lives = ' + lives);
-    changeDirection();
+    changeDirection(); // тут запуск
 
     if (lives === 0) {
       clearInterval(timerId);
@@ -198,27 +215,27 @@ function checkForCollisions() {
 
 function changeDirection() {
   // alert('xDirection=' + xDirection + ' ' + 'yDirection=' + yDirection);
-  if (xDirection === 5 && yDirection === 5) {
-    // yDirection = -5;
-    xDirection = -5;
-    return;
-  }
-
-  if (xDirection === 5 && yDirection === -5) {
+  if (xDirection === 2 && yDirection === 2) {
+    yDirection = -2;
     // xDirection = -5;
-    yDirection = 5;
     return;
   }
 
-  if (xDirection === -5 && yDirection === -5) {
+  if (xDirection === 2 && yDirection === -2) {
+    xDirection = -2;
     // yDirection = 5;
-    xDirection = 5;
     return;
   }
 
-  if (xDirection === -5 && yDirection === 5) {
+  if (xDirection === -2 && yDirection === -2) {
+    yDirection = 2;
     // xDirection = 5;
-    yDirection = -5;
+    return;
+  }
+
+  if (xDirection === -2 && yDirection === 2) {
+    xDirection = 2;
+    // yDirection = -5;
     return;
   }
   // alert('xDirection=' + xDirection + ' ' + 'yDirection=' + yDirection);
