@@ -1,14 +1,16 @@
 const grid = document.querySelector('.grid');
 const scoreDisplay = document.querySelector('#score');
+const livesDisplay = document.querySelector('#lives');
 const blockWidth = 100;
 const blockHeight = 20;
 const boardWidth = 560;
-const boardHeight = 650;
+const boardHeight = 920;
 const ballDiameter = 15;
 let timerId;
 let xDirection = 5;
 let yDirection = 5;
 let score = 0;
+let lives = 3;
 
 const userStart = [230, 10];
 let currentPosition = userStart;
@@ -28,22 +30,35 @@ class Block {
 }
 
 const blocks = [
-  new Block(10, 570 , 'yellow', 3),
-  new Block(120, 570 , 'yellow', 3),
-  new Block(230, 570 , 'yellow', 3),
-  new Block(340, 570 , 'yellow', 3),
-  new Block(450, 570 , 'yellow', 3),
-  new Block(10, 540 , 'blue', 2),
-  new Block(120, 540 , 'blue', 2),
-  new Block(230, 540 , 'blue', 2),
-  new Block(340, 540 , 'blue', 2),
-  new Block(450, 540 , 'blue', 2),
-  new Block(10, 510 , 'red', 1),
-  new Block(120, 510 , 'red', 1),
-  new Block(230, 510 , 'red', 1),
-  new Block(340, 510 , 'red', 1),
-  new Block(450, 510 , 'red', 1),
+  new Block(10, 800, 'green', 3),
+  new Block(120, 800, 'green', 3),
+  new Block(230, 800, 'green', 3),
+  new Block(340, 800, 'green', 3),
+  new Block(450, 800, 'green', 3),
+  new Block(10, 770, 'yellow', 2),
+  new Block(120, 770, 'yellow', 2),
+  new Block(230, 770, 'yellow', 2),
+  new Block(340, 770, 'yellow', 2),
+  new Block(450, 770, 'yellow', 2),
+  new Block(10, 740, 'blue', 2),
+  new Block(120, 740, 'blue', 2),
+  new Block(230, 740, 'blue', 2),
+  new Block(340, 740, 'blue', 2),
+  new Block(450, 740, 'blue', 2),
+  new Block(10, 710, 'red', 1),
+  new Block(120, 710, 'red', 1),
+  new Block(230, 710, 'red', 1),
+  new Block(340, 710, 'red', 1),
+  new Block(450, 710, 'red', 1),
 ];
+
+function start(event) {
+  if (event.code === 'Space') {
+    timerId = setInterval(moveBall, 20);
+  }
+}
+
+document.addEventListener('keydown', start);
 
 function addBlocks() {
   for (let i = 0; i < blocks.length; i++) {
@@ -105,37 +120,37 @@ function moveBall() {
   checkForCollisions();
 }
 
-timerId = setInterval(moveBall, 20);
-
 function checkForCollisions() {
   // block
   for (let i = 0; i < blocks.length; i++) {
     if (
-      ballCurrentPosition[0] > blocks[i].bottomLeft[0] &&
-      ballCurrentPosition[0] < blocks[i].bottomRight[0] &&
+      ballCurrentPosition[0] + ballDiameter > blocks[i].bottomLeft[0] &&
+      ballCurrentPosition[0] + ballDiameter < blocks[i].bottomRight[0] &&
       ballCurrentPosition[1] + ballDiameter > blocks[i].bottomLeft[1] &&
-      ballCurrentPosition[1] < blocks[i].topLeft[1]
+      ballCurrentPosition[1] + ballDiameter < blocks[i].topLeft[1]
     ) {
       const allBlocks = Array.from(document.querySelectorAll('.block'));
 
       blocks[i].hitCounter--;
       if (blocks[i].hitCounter < 0) blocks[i].hitCounter = 0;
-      console.log(blocks[i].hitCounter);
+      console.log('hitCounter =' + ' ' + blocks[i].hitCounter);
 
       if (blocks[i].hitCounter === 0) {
         blocks.splice(i, 1);
         allBlocks[i].classList.remove('block');
 
-        // if (blocks[i].color === 'red') score += 5;
-        // if (blocks[i].color === 'blue') score += 10;
-        // if (blocks[i].color === 'yellow') score += 15;
-        // if (blocks[i].color === 'green') score += 20;
+        if (blocks[i].color === 'red') score += 5;
+        if (blocks[i].color === 'blue') score += 10;
+        if (blocks[i].color === 'yellow') score += 15;
+        if (blocks[i].color === 'green') score += 20;
 
-      } 
-    
+        // высота, жизни, очки, туры, нач позиция, плавность движения
+      }
+
       changeDirection();
-      
+
       scoreDisplay.innerHTML = score;
+      livesDisplay.innerHTML = lives;
 
       // win
       if (blocks.length === 0) {
@@ -148,9 +163,9 @@ function checkForCollisions() {
 
   // wall
   if (
-    ballCurrentPosition[0] >= boardWidth - ballDiameter ||
+    ballCurrentPosition[0] >= boardWidth - ballDiameter / 1.5 ||
     ballCurrentPosition[1] >= boardHeight - ballDiameter ||
-    ballCurrentPosition[0] <= 0
+    ballCurrentPosition[0] + ballDiameter / 1.5 <= 0
   ) {
     changeDirection();
   }
@@ -165,32 +180,46 @@ function checkForCollisions() {
     changeDirection();
   }
 
-  // game over
+  // you lost the life
   if (ballCurrentPosition[1] <= 0) {
-    clearInterval(timerId);
-    scoreDisplay.innerHTML = 'You lose';
-    document.removeEventListener('keydown', moveUser);
+    livesDisplay.innerHTML = 'You lost the life';
+    lives--;
+    console.log('lives = ' + lives);
+    changeDirection();
+
+    if (lives === 0) {
+      clearInterval(timerId);
+      document.removeEventListener('keydown', moveUser);
+      document.removeEventListener('keydown', start);
+      livesDisplay.innerHTML = 'Game over';
+    }
   }
 }
 
 function changeDirection() {
+  // alert('xDirection=' + xDirection + ' ' + 'yDirection=' + yDirection);
   if (xDirection === 5 && yDirection === 5) {
-    yDirection = -5;
-    return;
-  }
-
-  if (xDirection === 5 && yDirection === -5) {
+    // yDirection = -5;
     xDirection = -5;
     return;
   }
 
-  if (xDirection === -5 && yDirection === -5) {
+  if (xDirection === 5 && yDirection === -5) {
+    // xDirection = -5;
     yDirection = 5;
     return;
   }
 
-  if (xDirection === -5 && yDirection === 5) {
+  if (xDirection === -5 && yDirection === -5) {
+    // yDirection = 5;
     xDirection = 5;
     return;
   }
+
+  if (xDirection === -5 && yDirection === 5) {
+    // xDirection = 5;
+    yDirection = -5;
+    return;
+  }
+  // alert('xDirection=' + xDirection + ' ' + 'yDirection=' + yDirection);
 }

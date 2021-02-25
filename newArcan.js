@@ -13,8 +13,8 @@ let bottomcord = leftWall.getBoundingClientRect().height;
 let rightcord = topWall.getBoundingClientRect().width;
 let leftcord = leftWall.getBoundingClientRect().width;
 
-let vx = 2;
-let vy = 2;
+let vx = 20;
+let vy = 20;
 let ballStyle = ball.getBoundingClientRect();
 let BW = ballStyle.width / 2;
 // let posX = ballStyle.left + BW;
