@@ -4,7 +4,8 @@ const livesDisplay = document.querySelector('#lives');
 const blockWidth = 100;
 const blockHeight = 20;
 const boardWidth = 560;
-const boardHeight = 920;
+// const boardHeight = 920;
+const boardHeight = 650;
 const ballDiameter = 15;
 let prevPosX;
 let prevPosY;
@@ -15,10 +16,10 @@ let yDirection = 2;
 let score = 0;
 let lives = 3;
 
-const userStart = [230, 10];
+let userStart = [230, 10];
 let currentPosition = userStart;
 
-const ballStart = [270, 40];
+let ballStart = [270, 40];
 let ballCurrentPosition = ballStart;
 
 class Block {
@@ -33,26 +34,26 @@ class Block {
 }
 
 const blocks = [
-  new Block(10, 800, 'green', 1),
-  new Block(120, 800, 'green', 1),
-  new Block(230, 800, 'green', 1),
-  new Block(340, 800, 'green', 1),
-  new Block(450, 800, 'green', 1),
-  new Block(10, 770, 'yellow', 1),
-  new Block(120, 770, 'yellow', 1),
-  new Block(230, 770, 'yellow', 1),
-  new Block(340, 770, 'yellow', 1),
-  new Block(450, 770, 'yellow', 1),
-  new Block(10, 740, 'blue', 1),
-  new Block(120, 740, 'blue', 1),
-  new Block(230, 740, 'blue', 1),
-  new Block(340, 740, 'blue', 1),
-  new Block(450, 740, 'blue', 1),
-  new Block(10, 710, 'red', 1),
-  new Block(120, 710, 'red', 1),
-  new Block(230, 710, 'red', 1),
-  new Block(340, 710, 'red', 1),
-  new Block(450, 710, 'red', 1),
+  new Block(10, 580, 'green', 1), // 800 потом по минус 30 
+  new Block(120, 580, 'green', 1),
+  new Block(230, 580, 'green', 1),
+  new Block(340, 580, 'green', 1),
+  new Block(450, 580, 'green', 1),
+  new Block(10, 550, 'yellow', 1),
+  new Block(120, 550, 'yellow', 1),
+  new Block(230, 550, 'yellow', 1),
+  new Block(340, 550, 'yellow', 1),
+  new Block(450, 550, 'yellow', 1),
+  new Block(10, 520, 'blue', 1),
+  new Block(120, 520, 'blue', 1),
+  new Block(230, 520, 'blue', 1),
+  new Block(340, 520, 'blue', 1),
+  new Block(450, 520, 'blue', 1),
+  new Block(10, 490, 'red', 1),
+  new Block(120, 490, 'red', 1),
+  new Block(230, 490, 'red', 1),
+  new Block(340, 490, 'red', 1),
+  new Block(450, 490, 'red', 1),
 ];
 
 function start(event) {
@@ -129,63 +130,77 @@ function checkForCollisions() {
 
   // block
   for (let i = 0; i < blocks.length; i++) {
-    if (
-      ballCurrentPosition[0] + ballDiameter > blocks[i].bottomLeft[0] &&
-      ballCurrentPosition[0] + ballDiameter < blocks[i].bottomRight[0] &&
-      ballCurrentPosition[1] + ballDiameter > blocks[i].bottomLeft[1] &&
-      ballCurrentPosition[1] + ballDiameter < blocks[i].topLeft[1]
+    let hit =  ( ballCurrentPosition[0] > blocks[i].bottomLeft[0] &&
+                 ballCurrentPosition[0] < blocks[i].bottomRight[0] &&
+                 ballCurrentPosition[1] > blocks[i].bottomLeft[1] &&
+                 ballCurrentPosition[1] < blocks[i].topLeft[1]);
+    if ( hit
+      // (hit && prevPosY >= blocks[i].bottomRight[1])
     ) {
       const allBlocks = Array.from(document.querySelectorAll('.block'));
 
       blocks[i].hitCounter--;
       if (blocks[i].hitCounter < 0) blocks[i].hitCounter = 0;
       console.log('hitCounter =' + ' ' + blocks[i].hitCounter);
-
+  
       if (blocks[i].hitCounter === 0) {
         blocks.splice(i, 1);
         allBlocks[i].classList.remove('block');
-
-        if (blocks[i].color === 'red') score += 5;
-        if (blocks[i].color === 'blue') score += 10;
-        if (blocks[i].color === 'yellow') score += 15;
-        if (blocks[i].color === 'green') score += 20;
+  
+        // if (blocks[i].color === 'red') score += 5;
+        // if (blocks[i].color === 'blue') score += 10;
+        // if (blocks[i].color === 'yellow') score += 15;
+        // if (blocks[i].color === 'green') score += 20;
       }
+  
+      // changeDirection();
 
-      changeDirection();
-
+      // console.log(hit + '--' + ballCurrentPosition[1] +'---' + prevPosY + '---' + blocks[i].bottomLeft[1])
+      // alert('s');
+      yDirection = -yDirection;
+  
       scoreDisplay.innerHTML = score;
       livesDisplay.innerHTML = lives;
-
+  
       // win
       if (blocks.length === 0) {
-        scoreDisplay.innerHTML = 'YOU WIN';
+        scoreDisplay.innerHTML = score;
+        livesDisplay.innerHTML = 'YOU WIN';
         clearInterval(timerId);
         document.removeEventListener('keydown', moveUser);
       }
     }
+  
   }
 
   // wall
   if (
     ballCurrentPosition[0] >= boardWidth - ballDiameter &&
-    prevPosY > ballCurrentPosition[1]
+    prevPosY > (ballCurrentPosition[1] && prevPosY < ballCurrentPosition[1])
   ) {
     xDirection = -xDirection;
   }
-  if (
-    ballCurrentPosition[0] >= boardWidth - ballDiameter &&
-    prevPosY < ballCurrentPosition[1]
-  ) {
-    xDirection = -xDirection;
-  }
+ 
 
-  if (
+  if (ballCurrentPosition[1] >= boardHeight - ballDiameter &&
+    (prevPosX > ballCurrentPosition[0] || prevPosX < ballCurrentPosition[0])
+    ) {
+      yDirection = -yDirection;
+    }
+
+  if (ballCurrentPosition[0] + ballDiameter <= 0 &&
+    (prevPosY < ballCurrentPosition[1] ||  prevPosY > ballCurrentPosition[1])
+    ) {
+      xDirection = -xDirection;
+    }
+
+  // if (
     // ballCurrentPosition[0] >= boardWidth - ballDiameter / 1.5 ||
-    ballCurrentPosition[1] >= boardHeight - ballDiameter ||
-    ballCurrentPosition[0] + ballDiameter / 1.5 <= 0
-  ) {
-    changeDirection();
-  }
+    // ballCurrentPosition[1] >= boardHeight - ballDiameter ||
+    // ballCurrentPosition[0] + ballDiameter / 1.5 <= 0
+  // ) {
+    // changeDirection();
+  // }
 
   // user
   if (
@@ -193,8 +208,10 @@ function checkForCollisions() {
     ballCurrentPosition[0] < currentPosition[0] + blockWidth &&
     ballCurrentPosition[1] > currentPosition[1] &&
     ballCurrentPosition[1] < currentPosition[1] + blockHeight
+    
   ) {
-    changeDirection();
+    // changeDirection();
+    yDirection = -yDirection
   }
 
   // you lost the life
@@ -202,7 +219,7 @@ function checkForCollisions() {
     livesDisplay.innerHTML = 'You lost the life';
     lives--;
     console.log('lives = ' + lives);
-    changeDirection(); // тут запуск
+    yDirection = -yDirection;
 
     if (lives === 0) {
       clearInterval(timerId);
@@ -214,29 +231,23 @@ function checkForCollisions() {
 }
 
 function changeDirection() {
-  // alert('xDirection=' + xDirection + ' ' + 'yDirection=' + yDirection);
-  if (xDirection === 2 && yDirection === 2) {
-    yDirection = -2;
-    // xDirection = -5;
-    return;
-  }
+  // if (xDirection === 2 && yDirection === 2) {
+  //   yDirection = -2;
+  //   return;
+  // }
 
-  if (xDirection === 2 && yDirection === -2) {
-    xDirection = -2;
-    // yDirection = 5;
-    return;
-  }
+  // if (xDirection === 2 && yDirection === -2) {
+  //   xDirection = -2;
+  //   return;
+  // }
 
-  if (xDirection === -2 && yDirection === -2) {
-    yDirection = 2;
-    // xDirection = 5;
-    return;
-  }
+  // if (xDirection === -2 && yDirection === -2) {
+  //   yDirection = 2;
+  //   return;
+  // }
 
-  if (xDirection === -2 && yDirection === 2) {
-    xDirection = 2;
-    // yDirection = -5;
-    return;
-  }
-  // alert('xDirection=' + xDirection + ' ' + 'yDirection=' + yDirection);
+  // if (xDirection === -2 && yDirection === 2) {
+  //   xDirection = 2;
+  //   return;
+  // }
 }
