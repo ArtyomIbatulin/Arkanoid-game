@@ -32,7 +32,6 @@ class Block {
     this.hitCounter = hitCounter;
   }
 }
-
 let blocks = [];
 
 function loadLevel(index) {
@@ -143,18 +142,24 @@ function checkForCollisions() {
       ballCurrentPosition[0] + ballDiameter < blocks[i].bottomRight[0] &&
       ballCurrentPosition[1] + ballDiameter > blocks[i].bottomLeft[1] &&
       ballCurrentPosition[1] + ballDiameter < blocks[i].topLeft[1];
-    if (
-      hit
-      // (hit && prevPosY >= blocks[i].bottomRight[1])
-    ) {
-      const allBlocks = Array.from(document.querySelectorAll('.block'));
+    if (hit) {
+      // if (
+      //   prevPosY <= blocks[i].bottomLeft[1] &&
+      //   prevPosY >= blocks[i].bottomLeft[1] &&
+      //   prevPosY <= blocks[i].bottomRight[1] &&
+      //   prevPosY >= blocks[i].bottomRight[1]
+      // ) {
+      //   xDirection = -xDirection;
+      //   alert('hitY');
+      // }
 
+      const allBlocks = Array.from(document.querySelectorAll('.block'));
       blocks[i].hitCounter--;
+
       if (blocks[i].hitCounter < 0) blocks[i].hitCounter = 0;
       console.log('hitCounter =' + ' ' + blocks[i].hitCounter);
 
       if (blocks[i].hitCounter === 0) {
-        // Вывести из for
         if (blocks[i].color === 'red') score += 5;
         if (blocks[i].color === 'blue') score += 10;
         if (blocks[i].color === 'yellow') score += 10;
@@ -165,18 +170,17 @@ function checkForCollisions() {
         if (blocks[i].color === 'aqua') score += 25;
 
         blocks.splice(i, 1);
-        allBlocks[i].classList.remove('block');
+        allBlocks[i].remove();
+        // if (allBlocks.length) {
+        //   allBlocks[i].remove();
+        // }
       }
-
-      // changeDirection();
-
-      // console.log(hit + '--' + ballCurrentPosition[1] +'---' + prevPosY + '---' + blocks[i].bottomLeft[1])
-      // alert('s');
 
       yDirection = -yDirection;
 
       scoreDisplay.innerHTML = score;
       livesDisplay.innerHTML = lives;
+      // alert('hit');
 
       // win
       if (blocks.length === 0) {
