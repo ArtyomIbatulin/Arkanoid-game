@@ -9,12 +9,12 @@ const boardHeight = 920;
 const ballDiameter = 15;
 let prevPosX;
 let prevPosY;
-let goriz, vert;
 let timerId;
 let xDirection = 5;
 let yDirection = 5;
 let score = 0;
 let lives = 3;
+let level = 1;
 
 let userStart = [230, 10];
 let currentPosition = userStart;
@@ -123,6 +123,15 @@ function moveBall() {
   checkForCollisions();
 }
 
+function levelUp() {
+  level++;
+  if (levels[level]) {
+    loadLevel(level);
+  } else {
+    alert('You Win');
+  }
+}
+
 function checkForCollisions() {
   prevPosX = ballCurrentPosition[0] - xDirection;
   prevPosY = ballCurrentPosition[1] - yDirection;
@@ -145,23 +154,25 @@ function checkForCollisions() {
       console.log('hitCounter =' + ' ' + blocks[i].hitCounter);
 
       if (blocks[i].hitCounter === 0) {
+        // Вывести из for
+        if (blocks[i].color === 'red') score += 5;
+        if (blocks[i].color === 'blue') score += 10;
+        if (blocks[i].color === 'yellow') score += 10;
+        if (blocks[i].color === 'green') score += 15;
+        if (blocks[i].color === 'purple') score += 15;
+        if (blocks[i].color === 'orange') score += 20;
+        if (blocks[i].color === 'olive') score += 20;
+        if (blocks[i].color === 'aqua') score += 25;
+
         blocks.splice(i, 1);
         allBlocks[i].classList.remove('block');
-
-        // if (blocks[i].color === 'red') score += 5;
-        // if (blocks[i].color === 'blue') score += 10;
-        // if (blocks[i].color === 'yellow') score += 15;
-        // if (blocks[i].color === 'green') score += 20;
-        // if (blocks[i].color === 'purple') score += 20;
-        // if (blocks[i].color === 'orange') score += 20;
-        // if (blocks[i].color === 'olive') score += 25;
-        // if (blocks[i].color === 'aqua') score += 25;
       }
 
       // changeDirection();
 
       // console.log(hit + '--' + ballCurrentPosition[1] +'---' + prevPosY + '---' + blocks[i].bottomLeft[1])
       // alert('s');
+
       yDirection = -yDirection;
 
       scoreDisplay.innerHTML = score;
@@ -173,6 +184,7 @@ function checkForCollisions() {
         livesDisplay.innerHTML = 'YOU WIN';
         clearInterval(timerId);
         document.removeEventListener('keydown', moveUser);
+        levelUp();
       }
     }
   }
