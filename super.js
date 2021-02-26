@@ -33,28 +33,27 @@ class Block {
   }
 }
 
-const blocks = [
-  new Block(10, 800, 'green', 1),
-  new Block(120, 800, 'green', 1),
-  new Block(230, 800, 'green', 1),
-  new Block(340, 800, 'green', 1),
-  new Block(450, 800, 'green', 1),
-  new Block(10, 770, 'yellow', 1),
-  new Block(120, 770, 'yellow', 1),
-  new Block(230, 770, 'yellow', 1),
-  new Block(340, 770, 'yellow', 1),
-  new Block(450, 770, 'yellow', 1),
-  new Block(10, 740, 'blue', 1),
-  new Block(120, 740, 'blue', 1),
-  new Block(230, 740, 'blue', 1),
-  new Block(340, 740, 'blue', 1),
-  new Block(450, 740, 'blue', 1),
-  new Block(10, 710, 'red', 1),
-  new Block(120, 710, 'red', 1),
-  new Block(230, 710, 'red', 1),
-  new Block(340, 710, 'red', 1),
-  new Block(450, 710, 'red', 1),
-];
+let blocks = [];
+
+function loadLevel(index) {
+  clearBlockList();
+
+  for (let i = 0; i < levels[index].length; i++) {
+    newBlock = new Block(
+      levels[index][i].xAxis,
+      levels[index][i].yAxis,
+      levels[index][i].color,
+      levels[index][i].hitCounter
+    );
+    blocks.push(newBlock);
+  }
+}
+
+function clearBlockList() {
+  blocks = [];
+}
+
+loadLevel(2);
 
 function start(event) {
   if (event.code === 'Space') {
@@ -153,6 +152,10 @@ function checkForCollisions() {
         // if (blocks[i].color === 'blue') score += 10;
         // if (blocks[i].color === 'yellow') score += 15;
         // if (blocks[i].color === 'green') score += 20;
+        // if (blocks[i].color === 'purple') score += 20;
+        // if (blocks[i].color === 'orange') score += 20;
+        // if (blocks[i].color === 'olive') score += 25;
+        // if (blocks[i].color === 'aqua') score += 25;
       }
 
       // changeDirection();
@@ -218,6 +221,7 @@ function checkForCollisions() {
       document.removeEventListener('keydown', moveUser);
       document.removeEventListener('keydown', start);
       livesDisplay.innerHTML = 'Game over';
+      clearBlockList();
     }
   }
 }
